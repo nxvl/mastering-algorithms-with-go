@@ -1,26 +1,18 @@
 package simple_linked_list
 
 import (
-	"errors"
-
-	"github.com/nxvl/mastering-algorithms-with-go/simple_list_elem"
-)
-
-type LinkedListError error
-
-var (
-	errEmptyList         = LinkedListError(errors.New("Invalid operation: list is empty"))
-	errNoElementToRemove = LinkedListError(errors.New("Invalid operation: no element to remove"))
+	. "github.com/nxvl/mastering-algorithms-with-go/linked_list_errors"
+	. "github.com/nxvl/mastering-algorithms-with-go/simple_list_elem"
 )
 
 type SimpleLinkedList struct {
 	size int
-	head *simple_list_elem.SimpleListElem
-	tail *simple_list_elem.SimpleListElem
+	head *SimpleListElem
+	tail *SimpleListElem
 }
 
-func (list *SimpleLinkedList) InsNext(element *simple_list_elem.SimpleListElem, data interface{}) error {
-	new_element := simple_list_elem.SimpleListElem{
+func (list *SimpleLinkedList) InsNext(element *SimpleListElem, data interface{}) error {
+	new_element := SimpleListElem{
 		Data: data,
 	}
 	if element == nil {
@@ -40,10 +32,10 @@ func (list *SimpleLinkedList) InsNext(element *simple_list_elem.SimpleListElem, 
 	return nil
 }
 
-func (list *SimpleLinkedList) RemNext(element *simple_list_elem.SimpleListElem) (interface{}, error) {
+func (list *SimpleLinkedList) RemNext(element *SimpleListElem) (interface{}, error) {
 	var data interface{}
 	if list.Size() == 0 {
-		return nil, errEmptyList
+		return nil, ErrEmptyList
 	}
 	if element == nil {
 		data = list.head.Data
@@ -53,7 +45,7 @@ func (list *SimpleLinkedList) RemNext(element *simple_list_elem.SimpleListElem) 
 		}
 	} else {
 		if element.Next == nil {
-			return nil, errNoElementToRemove
+			return nil, ErrNoElementToRemove
 		}
 		data = element.Next.Data
 		element.Next = element.Next.Next
@@ -69,26 +61,26 @@ func (list SimpleLinkedList) Size() int {
 	return list.size
 }
 
-func (list SimpleLinkedList) Head() *simple_list_elem.SimpleListElem {
+func (list SimpleLinkedList) Head() *SimpleListElem {
 	return list.head
 }
 
-func (list SimpleLinkedList) Tail() *simple_list_elem.SimpleListElem {
+func (list SimpleLinkedList) Tail() *SimpleListElem {
 	return list.tail
 }
 
-func (list SimpleLinkedList) IsHead(element *simple_list_elem.SimpleListElem) bool {
+func (list SimpleLinkedList) IsHead(element *SimpleListElem) bool {
 	return element == list.head
 }
 
-func (list SimpleLinkedList) IsTail(element *simple_list_elem.SimpleListElem) bool {
+func (list SimpleLinkedList) IsTail(element *SimpleListElem) bool {
 	return element == list.tail
 }
 
-func (list SimpleLinkedList) Data(element *simple_list_elem.SimpleListElem) interface{} {
+func (list SimpleLinkedList) Data(element *SimpleListElem) interface{} {
 	return element.Data
 }
 
-func (list SimpleLinkedList) Next(element *simple_list_elem.SimpleListElem) *simple_list_elem.SimpleListElem {
+func (list SimpleLinkedList) Next(element *SimpleListElem) *SimpleListElem {
 	return element.Next
 }
