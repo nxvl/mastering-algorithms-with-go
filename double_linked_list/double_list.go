@@ -63,12 +63,33 @@ func (list *DoubleLinkedList) InsPrev(element *DoubleListElem, data interface{})
 	return nil
 }
 
-func (list *DoubleLinkedList) RemNext(element *DoubleListElem) (interface{}, error) {
-	return nil, nil
-}
+func (list *DoubleLinkedList) Rem(element *DoubleListElem) (interface{}, error) {
+	switch {
+	case element == nil:
+		return nil, ErrNoElementToRemove
+	case list.Size() == 0:
+		return nil, ErrEmptyList
+	}
+	data := list.Data(element)
 
-func (list *DoubleLinkedList) RemPrev(element *DoubleListElem) (interface{}, error) {
-	return nil, nil
+	if list.IsHead(element) {
+		list.head = list.Next(element)
+		if list.Head() == nil {
+			list.tail = nil
+		} else {
+			element.Next.Prev = nil
+		}
+	} else {
+		element.Prev.Next = element.Next
+		if element.Next == nil {
+			list.tail = element.Prev
+		} else {
+			element.Next.Prev = element.Prev
+		}
+	}
+
+	list.size--
+	return data, nil
 }
 
 func (list DoubleLinkedList) Size() int {

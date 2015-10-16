@@ -229,7 +229,53 @@ func TestDoubleLinkedListInsPrev(t *testing.T) {
 	}
 }
 
-func TestDoubleLinkedListRemNext(t *testing.T) {
+func TestDoubleLinkedListRem(t *testing.T) {
+	var list = new(DoubleLinkedList)
+	// Insert 5 elements
+	for i := 1; i < 5; i++ {
+		list.InsNext(list.Head(), 5*i)
+	}
+
+	if list.Size() != 4 {
+		t.Error("Wrong size")
+	}
+	data, err := list.Rem(list.Next(list.Head()))
+	switch {
+	case err != nil:
+		t.Error("Returned error")
+	case data != 20:
+		t.Error("Wrong value removed")
+	case list.Size() != 3:
+		t.Error("Wrong size")
+	case list.Data(list.Head()) != 5 && list.Data(list.Next(list.Head())) != 15:
+		t.Error("Wrong values")
+	}
+
+	data, err = list.Rem(list.Head())
+	switch {
+	case err != nil:
+		t.Error("Returned error")
+	case data != 5:
+		t.Error("Wrong value removed")
+	case list.Size() != 2:
+		t.Error("Wrong size")
+	case list.Data(list.Head()) != 15 && list.Data(list.Next(list.Head())) != 10:
+		t.Error("Wrong values")
+	}
+
+	data, err = list.Rem(list.Tail())
+	switch {
+	case err != nil:
+		t.Error("Returned error")
+	case data != 10:
+		t.Error("Wrong value removed")
+	case list.Size() != 1:
+		t.Error("Wrong size")
+	case list.Data(list.Head()) != 15 && list.Data(list.Tail()) != 15:
+		t.Error("Wrong values")
+	case list.Head() != list.Tail():
+		t.Error("Tail and Head are not the same on size 1 list")
+	}
 }
 
 func TestDoubleLinkedListSize(t *testing.T) {
