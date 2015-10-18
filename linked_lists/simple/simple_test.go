@@ -3,7 +3,7 @@ package simple_list
 import (
 	"testing"
 
-	"github.com/nxvl/mastering-algorithms-with-go/linked_list_errors"
+	"github.com/nxvl/mastering-algorithms-with-go/linked_lists/ll_errors"
 )
 
 func TestSimpleLinkedList(t *testing.T) {
@@ -128,7 +128,7 @@ func TestSimpleLinkedListRemNext(t *testing.T) {
 	if err == nil {
 		t.Error("No error from removing after tail.")
 	}
-	_, ok := err.(linked_list_errors.LinkedListError)
+	_, ok := err.(ll_errors.LinkedListError)
 	if !ok {
 		t.Error("Wrong error type")
 	}
@@ -213,7 +213,7 @@ func TestSimpleLinkedListRemNext(t *testing.T) {
 	if err == nil {
 		t.Error("Didn't return error removing from empty list")
 	}
-	_, ok = err.(linked_list_errors.LinkedListError)
+	_, ok = err.(ll_errors.LinkedListError)
 	if !ok {
 		t.Error("Wrong error type")
 	}

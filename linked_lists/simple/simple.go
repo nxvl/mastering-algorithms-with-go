@@ -1,7 +1,7 @@
 package simple_list
 
 import (
-	. "github.com/nxvl/mastering-algorithms-with-go/linked_list_errors"
+	. "github.com/nxvl/mastering-algorithms-with-go/linked_lists/ll_errors"
 )
 
 type SimpleLinkedList struct {
