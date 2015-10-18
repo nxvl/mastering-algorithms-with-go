@@ -1,8 +1,4 @@
-package simple_list
-
-import (
-	. "github.com/nxvl/mastering-algorithms-with-go/linked_lists/ll_errors"
-)
+package linked_list
 
 type CircularLinkedList struct {
 	size int
@@ -17,6 +13,9 @@ func (list *CircularLinkedList) InsNext(element *SimpleListElem, data interface{
 		new_element.next = &new_element
 		list.head = &new_element
 	} else {
+		if element == nil {
+			return ErrInvalidInsert
+		}
 		new_element.next = element.next
 		element.next = &new_element
 	}

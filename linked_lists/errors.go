@@ -1,4 +1,4 @@
-package ll_errors
+package linked_list
 
 import "errors"
 

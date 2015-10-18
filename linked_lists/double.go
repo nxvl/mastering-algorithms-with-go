@@ -1,8 +1,4 @@
-package double_list
-
-import (
-	. "github.com/nxvl/mastering-algorithms-with-go/linked_list_errors"
-)
+package linked_list
 
 type DoubleLinkedList struct {
 	size int

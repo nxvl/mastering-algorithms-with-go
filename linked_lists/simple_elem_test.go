@@ -1,4 +1,4 @@
-package simple_list
+package linked_list
 
 import "testing"
 

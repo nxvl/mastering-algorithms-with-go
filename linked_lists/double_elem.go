@@ -1,4 +1,4 @@
-package double_list
+package linked_list
 
 type DoubleListElem struct {
 	data interface{}

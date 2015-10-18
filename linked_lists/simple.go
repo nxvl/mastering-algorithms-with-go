@@ -1,8 +1,4 @@
-package simple_list
-
-import (
-	. "github.com/nxvl/mastering-algorithms-with-go/linked_lists/ll_errors"
-)
+package linked_list
 
 type SimpleLinkedList struct {
 	size int
