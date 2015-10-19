@@ -118,7 +118,7 @@ func TestSimpleLinkedListRemNext(t *testing.T) {
 		list.InsNext(nil, i)
 	}
 	if list.Size() != 4 {
-		t.Error("Wring size")
+		t.Error("Wrong size")
 	}
 
 	// Try to remove after tail
