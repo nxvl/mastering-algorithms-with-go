@@ -5,9 +5,9 @@ import "testing"
 func newQueue(t *testing.T) Queue {
 	var q = Queue{}
 	switch {
-	case q.size != 0:
-		t.Fatalf("Bad empty Queue size: %d", q.size)
-	case q.front != nil || q.back != nil:
+	case q.Size() != 0:
+		t.Fatalf("Bad empty Queue size: %d", q.Size())
+	case q.Head() != nil || q.Tail() != nil:
 		t.Fatal("Head or Tail contain values in an empty Queue")
 	}
 
@@ -20,11 +20,11 @@ func newFilledQueue(t *testing.T) Queue {
 		q.Enqueue(i)
 	}
 	switch {
-	case q.size != 3:
-		t.Fatalf("Bad empty Queue size: %d", q.size)
-	case q.front.data != 0:
+	case q.Size() != 3:
+		t.Fatalf("Bad empty Queue size: %d", q.Size())
+	case q.Data(q.Head()) != 0:
 		t.Fatal("Head contains wrong value")
-	case q.back.data != 2:
+	case q.Data(q.Tail()) != 2:
 		t.Fatal("Tail contains wrong value")
 	}
 
@@ -38,32 +38,32 @@ func TestQueueEnqueue(t *testing.T) {
 	switch {
 	case q.Size() != 1:
 		t.Errorf("Wrong queue size: %d, expecting 1", q.Size())
-	case q.front.data != 5:
-		t.Errorf("Wrong front data value: %d, expecting 5", q.front.data)
-	case q.back.data != 5:
-		t.Errorf("Wrong back data value: %d, expecting 5", q.back.data)
+	case q.Data(q.Head()) != 5:
+		t.Errorf("Wrong front data value: %d, expecting 5", q.Data(q.Head()))
+	case q.Data(q.Tail()) != 5:
+		t.Errorf("Wrong back data value: %d, expecting 5", q.Data(q.Tail()))
 	}
 
 	q.Enqueue(10)
 	switch {
 	case q.Size() != 2:
 		t.Errorf("Wrong queue size: %d, expecting 2", q.Size())
-	case q.front.data != 5:
-		t.Errorf("Wrong front data value: %d, expecting 5", q.front.data)
-	case q.back.data != 10:
-		t.Errorf("Wrong back data value: %d, expecting 10", q.back.data)
+	case q.Data(q.Head()) != 5:
+		t.Errorf("Wrong front data value: %d, expecting 5", q.Data(q.Head()))
+	case q.Data(q.Tail()) != 10:
+		t.Errorf("Wrong back data value: %d, expecting 10", q.Data(q.Tail()))
 	}
 
 	q.Enqueue(15)
 	switch {
 	case q.Size() != 3:
 		t.Errorf("Wrong queue size: %d, expecting 3", q.Size())
-	case q.front.data != 5:
-		t.Errorf("Wrong front data value: %d, expecting 5", q.front.data)
-	case q.front.next.data != 10:
-		t.Errorf("Wrong front next data value: %d, expecting 10", q.front.data)
-	case q.back.data != 15:
-		t.Errorf("Wrong back data value: %d, expecting 15", q.back.data)
+	case q.Data(q.Head()) != 5:
+		t.Errorf("Wrong front data value: %d, expecting 5", q.Data(q.Head()))
+	case q.Data(q.Next(q.Head())) != 10:
+		t.Errorf("Wrong front next data value: %d, expecting 10", q.Data(q.Head()))
+	case q.Data(q.Tail()) != 15:
+		t.Errorf("Wrong back data value: %d, expecting 15", q.Data(q.Tail()))
 	}
 }
 
@@ -73,15 +73,15 @@ func TestFilledQueueDequeue(t *testing.T) {
 	data, err := q.Dequeue()
 	switch {
 	case err != nil:
-		t.Error("Error was returned")
+		t.Error("Error was returned", err)
 	case q.Size() != 2:
 		t.Errorf("Wrong queue size: %d, expecting 2", q.Size())
 	case data != 0:
 		t.Errorf("Wrong value returned: %d, expecting 0", data)
-	case q.front.data != 1:
-		t.Errorf("Wrong queue front: %d, expected 1", q.front.data)
-	case q.back.data != 2:
-		t.Errorf("Wrong queue back: %d, expected 2", q.front.data)
+	case q.Data(q.Head()) != 1:
+		t.Errorf("Wrong queue front: %d, expected 1", q.Data(q.Head()))
+	case q.Data(q.Tail()) != 2:
+		t.Errorf("Wrong queue back: %d, expected 2", q.Data(q.Head()))
 	}
 
 	data, err = q.Dequeue()
@@ -92,11 +92,11 @@ func TestFilledQueueDequeue(t *testing.T) {
 		t.Errorf("Wrong queue size: %d, expecting 1", q.Size())
 	case data != 1:
 		t.Errorf("Wrong value returned: %d, expecting 1", data)
-	case q.front.data != 2:
-		t.Errorf("Wrong queue front: %d, expected 2", q.front.data)
-	case q.back.data != 2:
-		t.Errorf("Wrong queue back: %d, expected 2", q.front.data)
-	case q.back != q.front:
+	case q.Data(q.Head()) != 2:
+		t.Errorf("Wrong queue front: %d, expected 2", q.Data(q.Head()))
+	case q.Data(q.Tail()) != 2:
+		t.Errorf("Wrong queue back: %d, expected 2", q.Data(q.Head()))
+	case q.Tail() != q.Head():
 		t.Error("Tail and front are not equal in a size 1 queue")
 	}
 
@@ -108,9 +108,9 @@ func TestFilledQueueDequeue(t *testing.T) {
 		t.Errorf("Wrong queue size: %d, expecting 0", q.Size())
 	case data != 2:
 		t.Errorf("Wrong value returned: %d, expecting 2", data)
-	case q.front != nil:
+	case q.Head() != nil:
 		t.Error("Queue front is not nil")
-	case q.back != nil:
+	case q.Tail() != nil:
 		t.Error("Queue back is not nil")
 	}
 }

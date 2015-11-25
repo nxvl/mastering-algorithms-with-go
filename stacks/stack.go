@@ -24,14 +24,10 @@ func (stack *Stack) Push(data interface{}) error {
 // of the stack and an optional error. Removes the element from the top.
 func (stack *Stack) Pop() (interface{}, error) {
 	data, err := stack.RemNext(nil)
-	switch {
-	case err == nil:
-		return data, nil
-	case err == linked_list.ErrEmptyList:
+	if err == linked_list.ErrEmptyList {
 		return data, ErrEmptyStack
-	default:
-		return data, err
 	}
+	return data, err
 }
 
 // Peeks the element at the top of the list, returns the data at the top
