@@ -37,6 +37,25 @@ func (set *Set) Remove(data interface{}) (interface{}, error) {
 	return set.RemNext(prev)
 }
 
+func (set1 Set) Union(set2 Set) (Set, error) {
+	setu, error := NewSet(set1.match)
+	if error != nil {
+		return *new(Set), error
+	}
+
+	for _, set := range([2]Set{set1, set2}) {
+		for member := set.Head(); member != nil; member = set.Next(member) {
+			data := set.Data(member)
+			error = setu.Insert(data)
+			if error != nil {
+				return *new(Set), error
+			}
+		}
+	}
+
+	return setu, nil
+}
+
 func (set Set) IsMember(data interface{}) bool {
 	for member := set.Head(); member != nil; member = set.Next(member) {
 		if set.match(data, set.Data(member)) {

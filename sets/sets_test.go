@@ -19,9 +19,10 @@ func newEmptySet(t *testing.T) Set {
 	return set
 }
 
-func newFilledSet(t *testing.T) Set {
+func newFilledSet(t *testing.T, offset int) Set {
 	set := newEmptySet(t)
-	for i := 0; i < 5; i++ {
+	limit := offset + 5
+	for i := offset; i < limit; i++ {
 		set.Insert(i)
 	}
 	if set.Size() != 5 {
@@ -59,7 +60,7 @@ func TestSetInsert(t *testing.T) {
 }
 
 func TestSetRemove(t *testing.T) {
-	set := newFilledSet(t)
+	set := newFilledSet(t, 0)
 
 	elem, err := set.Remove(2)
 	switch {
@@ -82,8 +83,25 @@ func TestSetRemove(t *testing.T) {
 	}
 }
 
+func TestSetUnion(t *testing.T) {
+	set1 := newFilledSet(t, 0)
+	set2 := newFilledSet(t, 3)
+
+	union, err := set1.Union(set2)
+	switch {
+	case err != nil:
+		t.Fatal("Error is not nil: ", err)
+	case union.Size() != 8:
+		t.Error("Size is not 8: ", union.Size())
+	case !union.IsMember(7):
+		t.Error("7 is not a member")
+	case !union.IsMember(0):
+		t.Error("0 is not a member")
+	}
+}
+
 func TestIsMember(t *testing.T) {
-	set := newFilledSet(t)
+	set := newFilledSet(t, 0)
 
 	switch {
 	case set.IsMember(8):
