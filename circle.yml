@@ -1,6 +1,11 @@
+machine:
+  environment:
+    IMPORT_PATH: "github.com/nxvl/mastering-algorithms-with-go"
+    GOPATH: "/usr/local/go_workspace"
+
 test:
   pre:
     - go vet ./...
 
   override:
-    - go test ./... -v -race
+    - godep go test ./... -v -race
