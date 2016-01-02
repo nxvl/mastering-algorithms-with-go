@@ -160,3 +160,21 @@ func TestIsSubset(t *testing.T) {
 		t.Error("set2 is a subset of set1")
 	}
 }
+
+func TestIsEqual(t *testing.T) {
+	set1 := newFilledSet(t, 0, 4)
+	set2 := newFilledSet(t, 0, 4)
+	set3 := newFilledSet(t, 0, 6)
+	set4 := newFilledSet(t, 2, 6)
+
+	switch {
+	case !set1.IsEqual(set2):
+		t.Error("set1 is not equal to set2")
+	case !set2.IsEqual(set1):
+		t.Error("set2 is not equal to set1")
+	case set1.IsEqual(set3):
+		t.Error("set1 is equal to set3")
+	case set1.IsEqual(set4):
+		t.Error("set1 is equal to set4")
+	}
+}

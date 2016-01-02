@@ -118,3 +118,11 @@ func (set1 Set) IsSubset(set2 Set) bool {
 
 	return true
 }
+
+func (set1 Set) IsEqual(set2 Set) bool {
+	if set1.Size() == set2.Size() && set1.IsSubset(set2) {
+		return true
+	} else {
+		return false
+	}
+}
