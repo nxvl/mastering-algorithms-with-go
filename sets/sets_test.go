@@ -100,6 +100,23 @@ func TestSetUnion(t *testing.T) {
 	}
 }
 
+func TestSetIntersection(t *testing.T) {
+	set1 := newFilledSet(t, 0)
+	set2 := newFilledSet(t, 3)
+
+	intersection, err := set1.Intersection(set2)
+	switch {
+	case err != nil:
+		t.Fatal("Error is not nil: ", err)
+	case intersection.Size() != 2:
+		t.Error("Size is not 2: ", intersection.Size())
+	case !intersection.IsMember(3):
+		t.Error("3 is not a member")
+	case !intersection.IsMember(4):
+		t.Error("4 is not a member")
+	}
+}
+
 func TestIsMember(t *testing.T) {
 	set := newFilledSet(t, 0)
 
