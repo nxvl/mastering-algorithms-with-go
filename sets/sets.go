@@ -103,3 +103,18 @@ func (set Set) IsMember(data interface{}) bool {
 
 	return false
 }
+
+func (set1 Set) IsSubset(set2 Set) bool {
+	if set1.Size() > set2.Size() {
+		return false
+	}
+
+	for member := set1.Head(); member != nil; member = set1.Next(member) {
+		data := set1.Data(member)
+		if !set2.IsMember(data) {
+			return false
+		}
+	}
+
+	return true
+}

@@ -19,13 +19,13 @@ func newEmptySet(t *testing.T) Set {
 	return set
 }
 
-func newFilledSet(t *testing.T, offset int) Set {
+func newFilledSet(t *testing.T, offset int, size int) Set {
 	set := newEmptySet(t)
-	limit := offset + 5
+	limit := offset + size
 	for i := offset; i < limit; i++ {
 		set.Insert(i)
 	}
-	if set.Size() != 5 {
+	if set.Size() != size {
 		t.Fatal("Wrong initial set size: ", set.Size())
 	}
 	return set
@@ -60,7 +60,7 @@ func TestSetInsert(t *testing.T) {
 }
 
 func TestSetRemove(t *testing.T) {
-	set := newFilledSet(t, 0)
+	set := newFilledSet(t, 0, 5)
 
 	elem, err := set.Remove(2)
 	switch {
@@ -84,8 +84,8 @@ func TestSetRemove(t *testing.T) {
 }
 
 func TestSetUnion(t *testing.T) {
-	set1 := newFilledSet(t, 0)
-	set2 := newFilledSet(t, 3)
+	set1 := newFilledSet(t, 0, 5)
+	set2 := newFilledSet(t, 3, 5)
 
 	union, err := set1.Union(set2)
 	switch {
@@ -101,8 +101,8 @@ func TestSetUnion(t *testing.T) {
 }
 
 func TestSetIntersection(t *testing.T) {
-	set1 := newFilledSet(t, 0)
-	set2 := newFilledSet(t, 3)
+	set1 := newFilledSet(t, 0, 5)
+	set2 := newFilledSet(t, 3, 5)
 
 	intersection, err := set1.Intersection(set2)
 	switch {
@@ -118,8 +118,8 @@ func TestSetIntersection(t *testing.T) {
 }
 
 func TestSetDifference(t *testing.T) {
-	set1 := newFilledSet(t, 0)
-	set2 := newFilledSet(t, 3)
+	set1 := newFilledSet(t, 0, 5)
+	set2 := newFilledSet(t, 3, 5)
 
 	diff, err := set1.Difference(set2)
 	switch {
@@ -139,12 +139,24 @@ func TestSetDifference(t *testing.T) {
 }
 
 func TestIsMember(t *testing.T) {
-	set := newFilledSet(t, 0)
+	set := newFilledSet(t, 0, 5)
 
 	switch {
 	case set.IsMember(8):
 		t.Error("IsMember returns true for 8")
 	case !set.IsMember(4):
 		t.Error("IsMember returns false for 4")
+	}
+}
+
+func TestIsSubset(t *testing.T) {
+	set1 := newFilledSet(t, 2, 4)
+	set2 := newFilledSet(t, 0, 8)
+
+	switch {
+	case !set1.IsSubset(set2):
+		t.Error("set1 is not a subset of set2")
+	case set2.IsSubset(set1):
+		t.Error("set2 is a subset of set1")
 	}
 }
