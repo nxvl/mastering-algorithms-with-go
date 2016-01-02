@@ -2,8 +2,8 @@ package sets
 
 import "errors"
 
-type StackError error
+type SetError error
 
 var (
-	ErrNothingToRemove = StackError(errors.New("Invalid operation: data not found in set"))
+	ErrNothingToRemove = SetError(errors.New("Invalid operation: data not found in set"))
 )
