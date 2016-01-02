@@ -117,6 +117,27 @@ func TestSetIntersection(t *testing.T) {
 	}
 }
 
+func TestSetDifference(t *testing.T) {
+	set1 := newFilledSet(t, 0)
+	set2 := newFilledSet(t, 3)
+
+	diff, err := set1.Difference(set2)
+	switch {
+	case err != nil:
+		t.Fatal("Error is not nil: ", err)
+	case diff.Size() != 3:
+		t.Error("Size is not 3: ", diff.Size())
+	case diff.IsMember(3):
+		t.Error("3 is a member")
+	case diff.IsMember(4):
+		t.Error("4 is a member")
+	case !diff.IsMember(2):
+		t.Error("2 is not a member")
+	case !diff.IsMember(0):
+		t.Error("0 is not a member")
+	}
+}
+
 func TestIsMember(t *testing.T) {
 	set := newFilledSet(t, 0)
 

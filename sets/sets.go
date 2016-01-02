@@ -75,6 +75,25 @@ func (set1 Set) Intersection(set2 Set) (Set, error) {
 	return seti, nil
 }
 
+func (set1 Set) Difference(set2 Set) (Set, error) {
+	setd, error := NewSet(set1.match)
+	if error != nil {
+		return *new(Set), error
+	}
+
+	for member:= set1.Head(); member != nil; member = set1.Next(member) {
+		data := set1.Data(member)
+		if !set2.IsMember(data) {
+			error = setd.Insert(data)
+			if error != nil {
+				return *new(Set), error
+			}
+		}
+	}
+
+	return setd, nil
+}
+
 func (set Set) IsMember(data interface{}) bool {
 	for member := set.Head(); member != nil; member = set.Next(member) {
 		if set.match(data, set.Data(member)) {
